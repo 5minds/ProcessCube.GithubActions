@@ -26,7 +26,7 @@ runs:
     - name: Build Docker Image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: ${{ inputs.context }}
         platforms: linux/${{ inputs.architecture }}
         tags: ${{ inputs.image-name }}:${{ inputs.version }}
         build-args: ${{ inputs.build-args }}
