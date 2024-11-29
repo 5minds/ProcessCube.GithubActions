@@ -10,12 +10,13 @@ inputs:
   context:  # id of input
     description: 'Context of docker build'
     required: true
+  architecture:
+    description: 'Architecture of docker image'
+    default: 'amd64'
   major-version:
     description: 'Major version of docker image'
   build-args:
     description: 'Build args of docker build'
-  architecture:
-    description: 'Architecture of docker image'
 runs:
   using: "composite"
   steps:
