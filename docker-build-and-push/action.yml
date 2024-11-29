@@ -1,0 +1,33 @@
+name: 'Docker build an push image'
+description: 'Builds and pushed docker image'
+inputs:
+  image-name:
+    description: 'Name of docker image'
+    required: true
+  version:  # id of input
+    description: 'Version of docker image'
+    required: true
+  context:  # id of input
+    description: 'Context of docker build'
+    required: true
+  major-version:
+    description: 'Major version of docker image'
+  build-args:
+    description: 'Build args of docker build'
+  architecture:
+    description: 'Architecture of docker image'
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/${{ inputs.architecture }}
+        tags: ${{ inputs.image-name }}:${{ inputs.version }}
+        build-args: ${{ inputs.build-args }}
+        push: true
+
