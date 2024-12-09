@@ -40,11 +40,25 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build Docker Image
+      if: ${{ inputs.major-version == '' }}
       uses: docker/build-push-action@v6
       with:
         context: ${{ inputs.context }}
         platforms: linux/${{ inputs.architecture }}
         tags: ${{ inputs.image-name }}:${{ inputs.version }}
+        build-args: ${{ inputs.build-args }}
+        push: true
+
+    - name: Build Docker Image
+      if: ${{ inputs.major-version != '' }}
+      uses: docker/build-push-action@v6
+      with:
+        context: ${{ inputs.context }}
+        platforms: linux/${{ inputs.architecture }}
+        tags: |
+          ${{ inputs.image-name }}:${{ inputs.version }}
+          ${{ inputs.image-name }}:${{ inputs.major-version }}
+          ${{ inputs.image-name }}:latest
         build-args: ${{ inputs.build-args }}
         push: true
 
